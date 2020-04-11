@@ -13,11 +13,15 @@ leadEsc(str, i) {
 }
 
 main() {
-    auto i, j, x;
-    i = j = x = 0;
-    tk = getvec(1023);
+    auto i, j, k, raw[7];
+    i = j = k = 0;
+    tokens = getvec(1023);
     while (src[i]) {
-        while (src[i] && isSpace(src[i])) i++;
+        while (src[i] && isSpace(src[i])) {
+            
+            k = 0;
+            i++;
+        }
         switch (src[i]) {
             case NULL:
                 break;
@@ -26,6 +30,7 @@ main() {
             case "A" :: "Z":
             case "_":
             case ".":
+                if (k < 8) raw[k++] = src[i++];
                 break;
             case "'":
             case '"':
