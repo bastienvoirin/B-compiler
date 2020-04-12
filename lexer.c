@@ -8,13 +8,15 @@ esc(str, i) {
 }
 
 main() {
-    auto i, j, k, c, raw[7];
-    i = j = k = 0;
-    tk = getvec(1023);
+    auto i, j, k, l, c;
+    i = j = k = l = 0;
+    tk = getvec(2047); // 1024 tokens
+    names = getvec(255); // 32 names
     while (src[i]) {
-        while (src[i] && isSpace(src[i])) {
+        if (src[i] && src[i] <= " ") {
+            l++;
             k = 0;
-            i++;
+            while (src[++i] && src[i] <= " ");
         }
         switch (src[i]) {
             case NULL:
@@ -24,7 +26,7 @@ main() {
             case "A" :: "Z":
             case "_":
             case ".":
-                if (k < 8) raw[k++] = src[i++];
+                if (k < 8) names[l + k++] = src[i++];
                 break;
             case "(":
             case "[":
@@ -32,12 +34,16 @@ main() {
             case ")":
             case "]":
             case "}":
+                l++;
+                k = 0;
                 tk[j++] = str[i];
                 tk[j++] = NULL;
                 break;
             case "'":
             case '"':
             case "`":
+                l++;
+                k = 0;
                 c = src[i];
                 i++;
                 while (src[i] && (src[i] != c || esc(src, i))) {
@@ -47,6 +53,8 @@ main() {
             case "=":
             case "<":
             case ">":
+                l++;
+                k = 0;
                 tk[j++] = src[i];
                 if (src[++i] == src[i] || src[i] == "=") {
                     tk[j++] = src[i];
@@ -59,6 +67,8 @@ main() {
             case "&":
             case "+":
             case "-":
+                l++;
+                k = 0;
                 tk[j++] = src[i];
                 i++;
                 if (src[i] == src[i-1] || src[i] == "=") {
@@ -74,10 +84,14 @@ main() {
             case "~":
             case "^":
             case "%":
+                l++;
+                k = 0;
                 tk[j++] = src[i];
                 tk[j++] = NULL;
                 break;
             case "#":
+                l++;
+                k = 0;
                 tk[j++] = "#";
                 switch (src[++i]) {
                     case "#":
@@ -94,8 +108,9 @@ main() {
                 }
                 break;
             case ";":
-                break;
             default:
+                l++;
+                k = 0;
                 break;
         }
         i++;
