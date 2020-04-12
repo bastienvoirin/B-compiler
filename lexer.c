@@ -29,18 +29,11 @@ main() {
             case "(":
             case "[":
             case "{":
-                tokens[j++] = "L";
-                if (src[i] == "(") tk[j++] = 0;
-                if (src[i] == "[") tk[j++] = 1;
-                if (src[i] == "{") tk[j++] = 2;
-                break;
             case ")":
             case "]":
             case "}":
-                tokens[j++] = "R";
-                if (src[i] == ")") tk[j++] = 0;
-                if (src[i] == "]") tk[j++] = 1;
-                if (src[i] == "}") tk[j++] = 2;
+                tk[j++] = str[i];
+                tk[j++] = NULL;
                 break;
             case "'":
             case '"':
@@ -54,11 +47,26 @@ main() {
             case "=":
             case "<":
             case ">":
+                tk[j++] = src[i];
+                if (src[++i] == src[i] || src[i] == "=") {
+                    tk[j++] = src[i];
+                } else {
+                    i--;
+                    tk[j++] = NULL;
+                }
                 break;
             case "|":
             case "&":
             case "+":
             case "-":
+                tk[j++] = src[i];
+                i++;
+                if (src[i] == src[i-1] || src[i] == "=") {
+                    tk[j++] = src[i];
+                } else {
+                    i--;
+                    tk[j++] = NULL;
+                }
                 break;
             case "**":
             case "/":
@@ -66,8 +74,26 @@ main() {
             case "~":
             case "^":
             case "%":
+                tk[j++] = src[i];
+                tk[j++] = NULL;
                 break;
             case "#":
+                tk[j++] = "#";
+                switch (src[++i]) {
+                    case "#":
+                    case "+":
+                    case "-":
+                    case "**":
+                    case "/":
+                        tk[j++] = src[i];
+                        break;
+                    default:
+                        tk[j++] = NULL;
+                        i--;
+                        break;
+                }
+                break;
+            case ";":
                 break;
             default:
                 break;
