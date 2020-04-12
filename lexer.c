@@ -23,8 +23,23 @@ main() {
                 break;
             default:
                 if (k) {
-                    l++;
                     k = 0;
+                         if (equal(names[l], "auto"))    { tk[j++] = "A"; tk[j++] = "U"; }
+                    else if (equal(names[l], "break"))   { tk[j++] = "B"; tk[j++] = "R"; }
+                    else if (equal(names[l], "case"))    { tk[j++] = "C"; tk[j++] = "S"; }
+                    else if (equal(names[l], "default")) { tk[j++] = "D"; tk[j++] = "F"; }
+                    else if (equal(names[l], "do"))      { tk[j++] = "D"; tk[j++] = "O"; }
+                    else if (equal(names[l], "else"))    { tk[j++] = "L"; tk[j++] = "S"; }
+                    else if (equal(names[l], "extrn"))   { tk[j++] = "X"; tk[j++] = "T"; }
+                    else if (equal(names[l], "for"))     { tk[j++] = "F"; tk[j++] = "R"; }
+                    else if (equal(names[l], "goto"))    { tk[j++] = "G"; tk[j++] = "T"; }
+                    else if (equal(names[l], "if"))      { tk[j++] = "I"; tk[j++] = "F"; }
+                    else if (equal(names[l], "next"))    { tk[j++] = "N"; tk[j++] = "X"; }
+                    else if (equal(names[l], "repeat"))  { tk[j++] = "R"; tk[j++] = "P"; }
+                    else if (equal(names[l], "return"))  { tk[j++] = "R"; tk[j++] = "T"; }
+                    else if (equal(names[l], "switch"))  { tk[j++] = "S"; tk[j++] = "W"; }
+                    else if (equal(names[l], "while"))   { tk[j++] = "W"; tk[j++] = "L"; }
+                    else l++;
                 }
                 switch (src[i]) {
                     case ";":
