@@ -32,6 +32,14 @@ main() {
             case ".":
                 if (k < 8) raw[k++] = src[i++];
                 break;
+            case "(":
+            case "[":
+            case "{":
+                break;
+            case ")":
+            case "]":
+            case "}":
+                break;
             case "'":
             case '"':
             case "`":
