@@ -1,24 +1,18 @@
 NULL = 0;
 
-isSpace(c) return (c <= " ");
-isDigit(c) return (c >= "0" && c <= "9");
-isAlpha(c) return (c >= "a" && c <= "z" || c >= "A" && c <= "Z");
-isValid(c) return (c >= "a" && c <= "z" || c >= "A" && c <= "Z" || c >= "0" && c <= "9" || c == "_" || c == ".");
-
-leadEsc(str, i) {
+esc(str, i) {
     auto n;
     n = 0;
     while (i-- && str[i] == "**") n++;
-    return n;
+    return (n % 2);
 }
 
 main() {
-    auto i, j, k, raw[7];
+    auto i, j, k, c, raw[7];
     i = j = k = 0;
-    tokens = getvec(1023);
+    tk = getvec(1023);
     while (src[i]) {
         while (src[i] && isSpace(src[i])) {
-            
             k = 0;
             i++;
         }
@@ -35,37 +29,49 @@ main() {
             case "(":
             case "[":
             case "{":
+                tokens[j++] = "L";
+                if (src[i] == "(") tk[j++] = 0;
+                if (src[i] == "[") tk[j++] = 1;
+                if (src[i] == "{") tk[j++] = 2;
                 break;
             case ")":
             case "]":
             case "}":
+                tokens[j++] = "R";
+                if (src[i] == ")") tk[j++] = 0;
+                if (src[i] == "]") tk[j++] = 1;
+                if (src[i] == "}") tk[j++] = 2;
                 break;
             case "'":
             case '"':
             case "`":
-                x = src[i];
+                c = src[i];
                 i++;
-                while (src[i] && (src[i] != x || leadEsc(src, i) % 2)) {
+                while (src[i] && (src[i] != c || esc(src, i))) {
                     i++;
                 }
                 break;
             case "=":
             case "<":
             case ">":
-            case "!":
-            case "~":
-            case "^":
+                break;
             case "|":
             case "&":
             case "+":
             case "-":
+                break;
             case "**":
             case "/":
+            case "!":
+            case "~":
+            case "^":
             case "%":
+                break;
             case "#":
                 break;
             default:
                 break;
         }
+        i++;
     }
 }
